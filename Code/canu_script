@@ -1,12 +1,20 @@
-#!/bin/bash
-#SBATCH --nodes=1
-#SBATCH --time=24:00:00
-#SBATCH --mem=64G
-#SBATCH --mail-user=chiara.dallasanta@gmail.com
-#SBATCH --mail-type=begin
-#SBATCH --mail-type=end
-#SBATCH --error=JobName.%J.err
+#!/bin/bash -l
+
+#SBATCH -A uppmax2022-2-5
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 2
+#SBATCH -t 24:00:00
+#SBATCH -J job_name
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user chiara.dallasanta@gmail.com
+
 #SBATCH --output=JobName.%J.out
+
+# Load modules
+module load bioinfo-tools
 module load canu
+
+# Commands
 
 canu -p Bt2 -d Bt2_assembly genomeSize=2.57m  -pacbio-raw SRR2093876_subreads.fastq.gz
