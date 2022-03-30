@@ -5,11 +5,10 @@
 #SBATCH -p core
 #SBATCH -n 2
 #SBATCH -t 24:00:00
-#SBATCH -J job_name
+#SBATCH -J canu_genomeassembly
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user chiara.dallasanta@gmail.com
-
-#SBATCH --output=JobName.%J.out
+#SBATCH --reservation=uppmax2022-2-5_2
 
 # Load modules
 module load bioinfo-tools
@@ -17,4 +16,4 @@ module load canu
 
 # Commands
 
-canu -p Bt2 -d Bt2_assembly genomeSize=2.57m  -pacbio-raw SRR2093876_subreads.fastq.gz
+canu -p genome_assembly -d canu_genomeassembly genomeSize=2.57m -num_threads 2 -pacbio-raw /home/chiar/genome_analysis/data/DNA_raw_data/*
