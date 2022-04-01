@@ -12,8 +12,8 @@ module load bioinfo-tools
 module load quast
 
 quast.py \
--o /home/chiar/genome_analysis/quast/ \
+/home/chiar/genome_analysis/genome_assembly/canu/ \
+-o /home/chiar/genome_analysis/genome_eval/quast/ \
 --threads 1 \
 -r /home/chiar/genome_analysis/data/reference/OBMB01.fasta \ 
-/home/chiar/genome_analysis/canu/L_ferriphilum_assembly.contigs.fasta
 
