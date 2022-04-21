@@ -18,7 +18,7 @@ module load blast
 dataDIR="/home/chiar/genome_analysis/data"
 
 # Commands
-blastn -query $dataDIR/reference/OBMB01.fasta -subject $dataDIR/other_strains/ML04.fasta.txt -outfmt 6 > LFerr_vs_ML04Strand.blastn
-
+makeblastdb -in $dataDIR/other_strains/ML04.fasta.txt -dbtype nucl
+blastn -query $dataDIR/reference/OBMB01.fasta -db $dataDIR/other_strains/ML04.fasta.txt -outfmt 6 > LFerr_vs_ML04S.crunch
 
 
