@@ -1,0 +1,28 @@
+#!/bin/bash -l
+#SBATCH -A uppmax2022-2-5
+#SBATCH -M snowy  
+#SBATCH -p core
+#SBATCH -n 4
+#SBATCH -t 15:00:00
+#SBATCH -J MappingAndDiffExp
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user chiara.dalla-santa.8949@student.uu.se
+
+# Load modules
+module load bioinfo-tools
+module load bwa
+module load samtools
+module load htseq
+
+# Paths
+ASS = /home/chiar/genome_analysis/01_genome_assembly
+ANN = /home/chiar/genome_analysis/03_genome_annotation/prokka
+RNA = /home/chiar/genome_analysis/06_RNA_fastQC/RNA_trimmed_fastqc/
+OUTDIR = /home/chiar/genome_analysis/07_BWA_Samtools_HTseq
+
+# Your commands
+bwa index ASS/L_ferriphilum_assembly.contigs.fasta
+for rna in ERR2036629 ERR2036630 ERR2036631 ERR2036632 ERR2036633
+do 
+bwa mem -t 4 $RNA${rna}_P1.trim_fastqc.zip $RNA${rna}_P2.trim_fastqc.zip | samtools sort -o $rna.sorted.bam | htseq-count -f bam -r pos -s no -t CDS -i ID - ANN/annotated_DNA.gff > OUTDIR/$rna.txt
+done 
