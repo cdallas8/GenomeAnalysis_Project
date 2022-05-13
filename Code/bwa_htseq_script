@@ -15,14 +15,24 @@ module load samtools
 module load htseq
 
 # Paths
-ASS = /home/chiar/genome_analysis/01_genome_assembly
-ANN = /home/chiar/genome_analysis/03_genome_annotation/prokka
-RNA = /home/chiar/genome_analysis/06_RNA_fastQC/RNA_trimmed_fastqc/
-OUTDIR = /home/chiar/genome_analysis/07_BWA_Samtools_HTseq
+REF=/home/chiar/genome_analysis/01_genome_assembly/canu/L_ferriphilum_assembly.contigs.fasta
+annotated_gen=/home/chiar/genome_analysis/03_genome_annotation/prokka/mod_annotated_DNA.gff
+trimmed=/home/chiar/genome_analysis/data/RNA_trimmed/
+OUTDIR=/home/chiar/genome_analysis/07_BWA_Samtools_HTseq
 
 # Your commands
-bwa index ASS/L_ferriphilum_assembly.contigs.fasta
-for rna in ERR2036629 ERR2036630 ERR2036631 ERR2036632 ERR2036633
-do 
-bwa mem -t 4 $RNA${rna}_P1.trim_fastqc.zip $RNA${rna}_P2.trim_fastqc.zip | samtools sort -o $rna.sorted.bam | htseq-count -f bam -r pos -s no -t CDS -i ID - ANN/annotated_DNA.gff > OUTDIR/$rna.txt
-done 
+
+# Navigate to the output directory 
+cd $OUTDIR
+
+# Run BWA indexing on the assembled genome 
+bwa index $REF 
+
+# Run BWA MEM for each experiment (2 files of paired reads)
+# Pipe it to SAMtools which creates a bam file and sorts it - no need to create the out file -o $R.sorted.bam - it is sent directely to htseq
+# Run HTseq
+for R in ERR2036629 ERR2036630 ERR2036631 ERR2036632 ERR2036633
+do
+bwa mem -t 4 $REF $trimmed${R}_P1.trim.fastq.gz $trimmed${R}_P2.trim.fastq.gz | samtools sort | htseq-count -f bam -r pos -s no -t CDS -i ID - $annotated_gen > $R.txt
+done
+
