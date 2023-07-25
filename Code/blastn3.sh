@@ -1,3 +1,4 @@
+# synteny comparison reference genome and assembled genome
 #!/bin/bash -l
 #SBATCH -A uppmax2022-2-5
 #SBATCH -M snowy
