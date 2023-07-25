@@ -1,3 +1,4 @@
+# Synteny comparison Ferroxidans and Ferriphilum
 #!/bin/bash -l
 #SBATCH -A uppmax2022-2-5
 #SBATCH -M snowy
